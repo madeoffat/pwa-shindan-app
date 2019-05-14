@@ -3,7 +3,8 @@
     <v-toolbar-side-icon class="heading" v-if="showArrow">
       <v-icon @click="goBack">arrow_back</v-icon>
     </v-toolbar-side-icon>
-    <router-link  class="toolbar-title" to="/">
+    <router-link class="toolbar-title" to="/edit" exact>
+
     <v-toolbar-title>診断
        <!-- <v-btn flat to="/"></v-btn> -->
        </v-toolbar-title>
@@ -25,18 +26,16 @@ export default {
   data() {
     return {
       user: null,
-      showArrow: true
+      showArrow: false
     };
   },
   created() {
-    // let user = firebase.auth().currentUser
-    console.log(this.$router.currentRoute.path);
     if (
-      this.$router.currentRoute.path === "/signup" ||
-      this.$router.currentRoute.path === "/" ||
-      this.$router.currentRoute.path === "/login"
+      this.$router.currentRoute.path === "/create" ||
+      this.$router.currentRoute.path === "/edit" ||
+      this.$router.currentRoute.path === "/setting"
     ) {
-      this.showArrow = false;
+      this.showArrow = true;
     }
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

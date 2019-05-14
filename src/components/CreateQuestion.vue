@@ -9,11 +9,11 @@
         <v-flex class="content-text">
           <v-text-field label="内容" type="text" name="new-content" v-model="newContent"></v-text-field>
         </v-flex>
-        <section v-if="!isAnswer">
+        <section class="next" v-if="!isAnswer">
           <FilterableDropdown
             :items="questions"
             v-model="selectedYesId"
-            placeholder="はいと選んだ場合の次の質問"
+            placeholder="はいと選んだ場合の次の質問または答え"
             idKey="id"
             valueKey="id"
             textKey="content"
@@ -22,15 +22,18 @@
           <FilterableDropdown
             :items="questions"
             v-model="selectedNoId"
-            placeholder="いいえと選んだ場合の次の質問"
+            placeholder="いいえと選んだ場合の次の質問または答え"
             idKey="id"
             valueKey="id"
             textKey="content"
             filterTargetKey="content"
           />
         </section>
-        <v-btn class="white--text" color="indigo" @click="addContent">保存</v-btn>
         <p v-if="feedback" class="red-text">{{ feedback }}</p>
+        <div class="save-button">
+          <v-btn @click="back()">戻る</v-btn>
+          <v-btn class="white--text" color="indigo" @click="addContent">保存</v-btn>
+        </div>
       </form>
     </div>
   </div>
@@ -53,7 +56,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.pid);
     let ref = db
       .collection("questions")
       .where("project_id", '==', this.$route.params.pid)
@@ -99,6 +101,9 @@ export default {
         });
       this.newMessage = null;
       this.feedback = null;
+    },
+    back() {
+      this.$router.go(-1)
     }
   },
   components: {
@@ -110,5 +115,16 @@ export default {
 <style>
 .content-text {
   margin-bottom: 20px;
+}
+.red-text {
+  color: red;
+}
+.new-content {
+  margin-bottom: 30px;
+}
+.save-button {
+  position: absolute;
+  right: 10px;  
+  bottom: 0px; 
 }
 </style>

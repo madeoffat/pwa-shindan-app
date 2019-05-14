@@ -10,31 +10,30 @@
           <v-text-field label="内容" type="text" name="new-content" v-model="content"></v-text-field>
         </v-flex>
         <section v-if="!isAnswer">
-          <!-- <label for="next">はいと選んだ場合の次の質問</label> -->
           <FilterableDropdown
             :items="questions"
             v-model="selectedYesId"
-            placeholder="はいと選んだ場合の次の質問"
+            placeholder="はいと選んだ場合の次の質問または答え"
             idKey="id"
             valueKey="id"
             textKey="content"
             filterTargetKey="content"
           />
-          <!-- <label for="next">いいえ</label> -->
           <FilterableDropdown
             :items="questions"
             v-model="selectedNoId"
-            placeholder="いいえと選んだ場合の次の質問"
+            placeholder="いいえと選んだ場合の次の質問または答え"
             idKey="id"
             valueKey="id"
             textKey="content"
             filterTargetKey="content"
           />
         </section>
+        <p v-if="feedback" class="red-text">{{ feedback }}</p>
         <div class="save-button">
+          <v-btn @click="back()">戻る</v-btn>
           <v-btn class="white--text" color="indigo" @click="addContent">保存</v-btn>
         </div>
-        <p v-if="feedback" class="red-text">{{ feedback }}</p>
       </form>
     </div>
   </div>
@@ -114,6 +113,9 @@ export default {
         });
       this.newMessage = null;
       this.feedback = null;
+    },
+    back() {
+      this.$router.go(-1)
     }
   },
   filters: {
@@ -124,13 +126,19 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .content-text {
   margin-bottom: 20px;
 }
+.new-content {
+  margin-bottom: 30px;
+}
 .save-button {
-  display: flex;
-  justify-content: right;
-  margin-top: 20px;
+  position: absolute;
+  right: 10px;  
+  bottom: 0px; 
+}
+.red-text {
+  color: red;
 }
 </style>

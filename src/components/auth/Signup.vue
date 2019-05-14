@@ -19,7 +19,7 @@
                 ></v-text-field>
                 <p v-if="feedback" class="red-text center">{{ feedback }}</p>
                 <v-card-actions>
-                  <v-btn @click="signup()" large block>登録</v-btn>
+                  <v-btn :disabled="isRequesting" @click="signup()" large block>登録</v-btn>
                 </v-card-actions>
               </form>
            </v-card-text>
@@ -32,7 +32,6 @@
 
 <script>
 import db from "@/firebase/init";
-// import slugify from 'slugify'
 import firebase from "firebase";
 export default {
   name: "Signup",
@@ -40,7 +39,8 @@ export default {
     return {
       email: null,
       password: null,
-      feedback: null
+      feedback: null,
+      isRequesting: false
     };
   },
   methods: {
@@ -54,13 +54,13 @@ export default {
       ref.get().then(doc => {
         if (doc.exists) {
           this.feedback = "このメールアドレスはすでに使用されています。";
+          this.isRequesting = false;
           return;
         }
         firebase
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password)
           .then(res => {
-            console.log(user);
             ref.set({
               user_id: res.user.uid
             });
@@ -70,6 +70,7 @@ export default {
           })
           .catch(err => {
             this.feedback = err.message;
+            this.isRequesting = false;
           });
       });
     }

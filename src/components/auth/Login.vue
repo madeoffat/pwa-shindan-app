@@ -20,7 +20,7 @@
 
                 <p v-if="feedback" class="red-text center">{{ feedback }}</p>
                 <v-card-actions>
-                  <v-btn @click="login()" large block>ログイン</v-btn>
+                  <v-btn :disabled="isRequesting" @click="login()" large block>ログイン</v-btn>
                 </v-card-actions>
               </form>
             </v-card-text>
@@ -38,13 +38,16 @@ export default {
     return {
       email: null,
       password: null,
-      feedback: null
+      feedback: null,
+      isRequesting: false
     };
   },
   methods: {
     login() {
+      this.isRequesting = true;
       if (!this.email || !this.password) {
         this.feedback = "メールアドレスまたはパスワードが入力されていません。";
+        this.isRequesting = false;
         return;
       }
       this.feedback = null;
@@ -52,18 +55,18 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          console.log(user);
           this.$router.push({ name: "Home" });
         })
         .catch(err => {
           this.feedback = err.message;
+          this.isRequesting = false;
         });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .red-text {
   color: red;
 }
