@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <v-btn fab dark class="add-button white--text" color="indigo" @click="goCreate">
+    <v-btn fab dark class="add-button white--text" color="red" @click="goCreate">
       <v-icon dark>add</v-icon>
     </v-btn>
     <p v-if="!isAnswerSet" class="red-text">答えが設定されていません。</p>
@@ -27,7 +27,6 @@
           <v-list-tile-title v-html="question.content"></v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <!-- <v-icon>delete</v-icon> -->
           <v-icon>build</v-icon>
         </v-list-tile-action>
       </v-list-tile>
@@ -176,8 +175,12 @@ export default {
   justify-content: left;
 }
 .question-list {
+  margin-top: 20px;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+}
+.answer-list {
+  margin-bottom: 40px;
 }
 .text-color-primary {
   color: blue;

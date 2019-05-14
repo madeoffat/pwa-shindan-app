@@ -43,13 +43,11 @@ export default {
   },
   created() {
     let userId = firebase.auth().currentUser.uid;
-    // console.log(user);
     let ref = db.collection("projects").where("user_id", "==", userId);
     ref.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         if (change.type == "added") {
           let doc = change.doc;
-          console.log(doc);
           let data = doc.data();
           this.projects.push({
             id: doc.id,
@@ -67,7 +65,6 @@ export default {
       isEdited = true
     },
     goSetting(id, firstQuestionId) {
-      console.log(id);
       this.$router.push({
         name: "Setting",
         params: { id: id, firstQuestionId: firstQuestionId }
@@ -81,7 +78,6 @@ export default {
         .where("is_answer", "==", true)
         .get()
         .then(questions => {
-          console.log(questions);
           if (questions.empty) {
             this.feedback = "解答が設定されていません。";
             return;
@@ -92,6 +88,9 @@ export default {
       this.$router.push({ name: "Question", params: { id: firstQuestionId } });
     },
     addProject() {
+      if (!this.name) {
+        return;
+      }
       db.collection("projects")
         .add({
           name: this.name,
@@ -109,7 +108,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .container {
   margin-top: 20px;
   background-color: white;

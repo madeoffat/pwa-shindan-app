@@ -1,10 +1,24 @@
 <template>
   <div class="container">
-    <div class="title">{{ content }}</div>
-    <div class="buttons">
-      <v-btn large color="primary" @click="goNext(nextYesId)">Yes</v-btn>
-      <v-btn large color="error" @click="goNext(nextNoId)">No</v-btn>
-    </div>
+    <div class="content">{{ content }}</div>
+    <!-- <div class="buttons"> -->
+       <v-container grid-list-md text-xs-center>
+    <v-layout row fill-height wrap>
+       <v-flex  xm6s>
+        <v-card dark color="secondary">
+          <v-card-text class="px-0">Yes</v-card-text>
+        </v-card>
+        </v-flex>
+        <v-flex xs6s>
+        <v-card dark color="secondary">
+          <v-card-text class="px-0">No</v-card-text>
+        </v-card>
+        </v-flex>
+      <!-- <v-btn style="width: 50px;" color="primary" @click="goNext(nextYesId)">Yes</v-btn>
+      <v-btn large color="error" @click="goNext(nextNoId)">No</v-btn> -->
+    <!-- </div> -->
+     </v-layout>
+  </v-container>
   </div>
 </template>
 
@@ -64,11 +78,11 @@ export default {
   animation-name: fadein;
   animation-duration: 2s;
 }
-.title {
+.content {
   display: flex;
   justify-content: center;
 	margin-top: 50px;
-  font-size: 45px;
+  font-size: 50px;
   font-weight: bold;
   text-align: center;
   animation-name: fadein;
